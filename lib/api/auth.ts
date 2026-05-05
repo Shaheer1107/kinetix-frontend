@@ -1,14 +1,15 @@
 import api from "../axios";
-import { ApiResponse, User } from "@/types";
+import { User } from "@/types";
 
 type AuthResponse = {
+  success: boolean;
   token: string;
   user: User;
 };
 
 export const authApi = {
   register: async (name: string, email: string, password: string) => {
-    const res = await api.post<ApiResponse<AuthResponse>>("/api/auth/register", {
+    const res = await api.post<AuthResponse>("/api/auth/register", {
       name,
       email,
       password,
@@ -17,7 +18,7 @@ export const authApi = {
   },
 
   login: async (email: string, password: string) => {
-    const res = await api.post<ApiResponse<AuthResponse>>("/api/auth/login", {
+    const res = await api.post<AuthResponse>("/api/auth/login", {
       email,
       password,
     });
@@ -25,7 +26,7 @@ export const authApi = {
   },
 
   getMe: async () => {
-    const res = await api.get<ApiResponse<User>>("/api/auth/me");
+    const res = await api.get<{ success: boolean; user: User }>("/api/auth/me");
     return res.data;
   },
 
